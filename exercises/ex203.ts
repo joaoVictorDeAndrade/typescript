@@ -1,7 +1,7 @@
 interface Produto {
     nome: string;
     preco: number;
-    teclado: boolean;
+    teclado?: boolean;
 }
 
 function preencherDados(dados: Produto) {

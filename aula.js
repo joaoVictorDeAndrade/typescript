@@ -1,5 +1,14 @@
 "use strict";
-function somar(a, b, c = 0) {
-    return a + b + c;
+async function fetchProduto() {
+    const response = await fetch('https://api.origamid.dev/json/notebook.json');
+    return await response.json();
 }
-console.log(somar(1, 3));
+async function handleProduto() {
+    const produto = await fetchProduto();
+}
+handleProduto();
+function handleClick({ currentTarget, pageX }) {
+    console.log(currentTarget);
+    console.log(pageX);
+}
+document.documentElement.addEventListener('click', handleClick);

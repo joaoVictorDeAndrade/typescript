@@ -1,5 +1,24 @@
-function somar(a: number, b: number, c: number = 0) {
-    return a + b + c;
+interface Produto {
+    nome: string;
+    preco: number;
 }
 
-console.log(somar(1, 3))
+async function fetchProduto() {
+    const response = await fetch('https://api.origamid.dev/json/notebook.json');
+    return await response.json() as Produto
+}
+
+async function handleProduto() {
+    const produto = await fetchProduto()
+}
+
+handleProduto()
+
+
+function handleClick({ currentTarget, pageX }: MouseEvent) {
+    console.log(currentTarget)
+    console.log(pageX)
+
+}
+
+document.documentElement.addEventListener('click', handleClick)
