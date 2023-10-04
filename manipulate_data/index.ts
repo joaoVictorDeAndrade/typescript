@@ -1,4 +1,5 @@
 import getTransactions from "./getTransactions.js";
+import { formatMoneyAmount, parseCurrencyToNumber } from "./helpers.js";
 import { isTransaction } from "./userTypeGuards.js";
 
 let transactions: any;
@@ -6,6 +7,8 @@ let transactions: any;
 async function getData() {
     transactions = await getTransactions()
     renderTable()
+    calculateTotal()
+    amountCreditCard()
 }
 
 function renderTable() {
@@ -42,6 +45,41 @@ function renderTable() {
             }
 
         })
+    }
+
+
+}
+
+function calculateTotal() {
+    const totalAmount = document.querySelector('#totalAmount')
+
+    if (transactions instanceof Array) {
+        let amount = 0
+
+        transactions.forEach(item => {
+            if (isTransaction(item)) {
+                amount += parseCurrencyToNumber(item.amount) || 0
+            }
+        })
+
+        if (totalAmount) {
+            totalAmount.innerHTML = `${formatMoneyAmount(amount)}`
+        }
+    }
+}
+
+function amountCreditCard() {
+    const creditCard = document.getElementById('creditCard');
+
+    if (transactions instanceof Array) {
+        const creditCardArray = transactions.filter(item => {
+            if (isTransaction(item)) {
+                return item.paymentMethod === 'Cartão de Crédito'
+            }
+        })
+
+        if (creditCard)
+            creditCard.innerText = String(creditCardArray.length)
     }
 
 
